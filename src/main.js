@@ -148,6 +148,8 @@ function pilihWaktu(seconds) {
   timerStatus.innerText = "Timer siap dimulai.";
 }
 
+const timerIcon = document.getElementById("timerIcon");
+
 // fungsi untuk timer ketika start
 function startTimer() {
   if (totalSeconds === 0) {
@@ -159,15 +161,16 @@ function startTimer() {
   }
   isRunning = true;
   isPaused = false;
-
   timerInterval = setInterval(function() {
     if (totalSeconds > 0) {
       totalSeconds--;
       updateTimerDisplay();
+      timerIcon.classList.add("fa-bounce");
       timerStatus.innerHTML = "Timer dimulai.";
     } else {
       clearInterval(timerInterval);
       isRunning = false;
+      timerIcon.classList.add("fa-shake");
       timerInterval = null;
       timerStatus.innerText = "Selesai!";
       alarmSound.play();
@@ -188,6 +191,7 @@ function pauseTimer() {
     clearInterval(timerInterval);
     isRunning = false;
     isPaused = true;
+    timerIcon.classList.remove("fa-bounce");
     timerStatus.innerHTML = "Timer dijeda.";
     alarmSound.pause();
     alarmSound.currentTime = 0;
@@ -203,6 +207,8 @@ function resetTimer() {
   totalSeconds = 0;
   isRunning = false;
   isPaused = false;
+  timerIcon.classList.remove("fa-bounce");
+  timerIcon.classList.remove("fa-shake");
   updateTimerDisplay();
   timerStatus.innerHTML = "";
   alarmSound.pause();
