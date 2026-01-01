@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SMART COOK MODE</title>
+  <link rel="icon" href="assets/images/clock-regular.svg">
+  <link rel="stylesheet" href="assets/fontawesome-free-7.1.0-web/css/all.css">
+  <link rel="stylesheet" href="src/styles.css">
+</head>
+<body>
+  <header class="container-header">
+    <nav class="navbar">
+      <h1 class="nama"><i class="fa-regular fa-clock fa-spin"></i> SMART COOK MODE</h1>
+      <ul class="nav-link">
+        <li><a href="#">Home</a></li>
+        <li><a href="about.html">What's This?</a></li>
+      </ul>
+    </nav>
+  </header>
+  <main>
+    <section class="main-content">
+      <div class="content-wrapper">
+        <!-- timer -->
+        <div class="timer-display">
+          <div class="timer-title"><i class="fa-solid fa-alarm-clock fa-bounce"></i> TIMER</div>
+          <div id="timer">00:00:00</div>
+          <div id="timer-status"></div>
+          <div class="timer-controls">
+            <button id="start-button" class="btn-control start">
+              <i class="fa-solid fa-play"></i> Start
+            </button>
+            <button id="pause-button" class="btn-control pause">
+              <i class="fa-solid fa-pause"></i> Jeda
+            </button>
+            <button id="reset-button" class="btn-control reset">
+              <i class="fa-solid fa-rotate-right"></i> Reset
+            </button>
+          </div>
+        </div>
+        <!-- preset makanan -->
+        <div class="preset-makanan">
+          <h2 class="section-title"><i class="fa-solid fa-book"></i> PRESET MAKANAN</h2>
+          <div class="list-makanan">
+            <div id="tab-content">
+              <div class="tab" onclick="renderCategory('rebusan')">Rebusan</div>
+              <div class="tab" onclick="renderCategory('oven')">Oven</div>
+              <div class="tab" onclick="renderCategory('kukusan')">Kukusan</div>
+              <div class="tab" onclick="renderCategory('gorengan')">Gorengan</div>
+            </div>
+            <div id="data-category"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer>
+    <p>&copy; 2025 KELOMPOK 3 </p>
+  </footer>
+  <audio src="assets/sound/alarm.mp3" id="alarmSound" preload="auto" loop></audio>
+  <script src="src/main.js"></script>
+</body>
+</html>
