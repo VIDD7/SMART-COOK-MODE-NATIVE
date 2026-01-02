@@ -62,23 +62,26 @@ function renderCategory(categoryName) {
     </div>
   </div>
   `;
-  dataCategory.innerHTML += addCard;
+  dataCategory.innerHTML = dataCategory.innerHTML + addCard;
 
   if (listMakanan) {
-    listMakanan.forEach((item) => {
+    listMakanan.forEach(item => {
       const card = `
       <div class="item-preset" onclick="pilihWaktu(${item.time})">
         <div class="info">
           <h4>${item.name}</h4>
           <p class="desc-info">${item.desc}</p>
-          <p class="time-info">${Math.floor(item.time / 60)} Menit</p>
+          <p class="time-info">${item.time / 60} Menit</p>
         </div>
       </div>
       `;
-      dataCategory.innerHTML += card;
+      dataCategory.innerHTML = dataCategory.innerHTML + card;
     })
   }
 };
+
+// tampilan awal pas buka web
+renderCategory('rebusan');
 
 // fungsi untuk menambah preset baru
 function addPreset() {
@@ -106,7 +109,7 @@ function addPreset() {
   }
 
   let menit = parseInt(waktu);
-  presets[activeCategory].push({
+  presets[activeCategory].unshift({
     name: nama,
     desc: desc,
     time: menit * 60
@@ -115,9 +118,6 @@ function addPreset() {
   renderCategory(activeCategory)
   alert("Preset makanan berhasil ditambahkan!");
 };
-
-// tampilan awal pas buka web
-renderCategory('rebusan');
 
 // variabel timer
 let timerInterval = null;
