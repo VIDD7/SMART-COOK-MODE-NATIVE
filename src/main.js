@@ -25,14 +25,8 @@ const presets = {
   ]
 };
 
-// Element DOM
+// element DOM untuk preset kategori makanan
 const dataCategory = document.getElementById("data-category");
-const timerDisplay = document.getElementById("timer");
-const timerStatus = document.getElementById("timer-status");
-const startBtn = document.getElementById("start-button");
-const pauseBtn = document.getElementById("pause-button");
-const resetBtn = document.getElementById("reset-button");
-const alarmSound = document.getElementById("alarmSound");
 
 // variabel kategori yg aktif
 let activeCategory = null;
@@ -71,7 +65,7 @@ function renderCategory(categoryName) {
         <div class="info">
           <h4>${item.name}</h4>
           <p class="desc-info">${item.desc}</p>
-          <p class="time-info">${item.time / 60} Menit</p>
+          <p class="time-info">${Math.floor(item.time / 60)} Menit</p>
         </div>
       </div>
       `;
@@ -109,18 +103,21 @@ function addPreset() {
   }
 
   let menit = parseInt(waktu);
-  presets[activeCategory].unshift({
-    name: nama,
-    desc: desc,
-    time: menit * 60
-  });
+  presets[activeCategory].unshift(
+    {name: nama, desc: desc, time: menit * 60}
+  );
 
   renderCategory(activeCategory)
   alert("Preset makanan berhasil ditambahkan!");
 };
 
-// variabel timer
-let timerInterval = null;
+// element dom sama variabel timer
+const timerDisplay = document.getElementById("timer");
+const timerStatus = document.getElementById("timer-status");
+const startBtn = document.getElementById("start-button");
+const pauseBtn = document.getElementById("pause-button");
+const resetBtn = document.getElementById("reset-button");
+
 let totalSeconds = 0;
 let isRunning = false;
 let isPaused = false;
@@ -148,34 +145,45 @@ function pilihWaktu(seconds) {
   timerStatus.innerText = "Timer siap dimulai.";
 }
 
+// element dom untuk alarm and icon timer
 const timerIcon = document.getElementById("timerIcon");
+const alarmSound = document.getElementById("alarmSound");
 
-// fungsi untuk timer ketika start
+// variabel untuk interval timer
+let timerInterval = null;
+
+// fungsi untuk hitung mundur timerny
+function hitungMundur() {
+  if (totalSeconds > 0) {
+    totalSeconds--;
+    updateTimerDisplay();
+    timerIcon.classList.add("fa-bounce");
+    timerStatus.innerHTML = "Timer dimulai.";
+  } else {
+    clearInterval(timerInterval);
+    timerInterval = null;
+    isRunning = false;
+    timerIcon.classList.remove("fa-bounce");
+    timerIcon.classList.add("fa-shake");
+    timerStatus.innerText = "Selesai!";
+    alarmSound.play();
+  }
+}
+
+// fungsi untuk timer pas klik btn start
 function startTimer() {
   if (totalSeconds === 0) {
-    alert("Silahkan pilih preset makanan dulu.");
+    alert("Silahkan pilih kategori makanan terlebih dahulu!");
     return;
   }
+  // biar dak looping klo timer lah jalan
   if (isRunning) {
     return;
   }
   isRunning = true;
   isPaused = false;
-  timerInterval = setInterval(function() {
-    if (totalSeconds > 0) {
-      totalSeconds--;
-      updateTimerDisplay();
-      timerIcon.classList.add("fa-bounce");
-      timerStatus.innerHTML = "Timer dimulai.";
-    } else {
-      clearInterval(timerInterval);
-      isRunning = false;
-      timerIcon.classList.add("fa-shake");
-      timerInterval = null;
-      timerStatus.innerText = "Selesai!";
-      alarmSound.play();
-    }
-  }, 1000);
+  timerIcon.classList.remove("fa-shake");
+  timerInterval = setInterval(hitungMundur, 1000);
 }
 
 // langsung tambahin event listener untuk tombol start
